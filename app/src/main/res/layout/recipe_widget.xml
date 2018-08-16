@@ -1,0 +1,44 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#fff">
+
+    <TextView
+        android:id="@+id/appwidget_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:background="#f50057"
+        android:contentDescription="@string/appwidget_text"
+        android:gravity="center"
+        android:text="@string/appwidget_text"
+        android:textAppearance="@style/TextAppearance.AppCompat.Title"
+        android:textColor="#fff"
+        android:textSize="20sp"
+        android:layout_alignParentLeft="true" />
+
+    <TextView
+        android:id="@+id/quantity_tv"
+        android:layout_width="69dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="34dp"
+        android:gravity="center"
+        android:text="@string/widgetBody1"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textColor="#a8000000"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/ingredients_tv"
+        android:layout_width="311dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="70dp"
+        android:layout_marginTop="34dp"
+        android:gravity="left"
+        android:text="@string/widgetBody2"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textColor="#CC000000"
+        android:textSize="12sp"/>
+
+</RelativeLayout>

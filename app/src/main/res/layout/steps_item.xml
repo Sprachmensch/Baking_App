@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cardView"
+    android:layout_width="match_parent"
+    android:layout_height="60dp"
+    android:layout_margin="0dp"
+    android:padding="0dp">
+
+
+    <TextView
+        android:id="@+id/stepNr_tv"
+        android:layout_width="40dp"
+        android:layout_height="match_parent"
+        android:gravity="right|center_vertical"
+        android:text="quantity"
+        android:textAppearance="@style/TextAppearance.AppCompat.Title"
+        android:textColor="#8Bf50057"
+        android:textSize="22sp"
+        android:textStyle="bold" />
+
+
+    <TextView
+        android:id="@+id/shortDesc_tv"
+        android:layout_width="278dp"
+        android:layout_height="match_parent"
+        android:layout_toEndOf="@+id/stepNr_tv"
+        android:gravity="center_vertical"
+        android:paddingLeft="20dp"
+        android:text="ingredient"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textColor="#000"
+        android:textSize="18sp" />
+
+    <ImageView
+        android:id="@+id/playBtn"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_alignBottom="@+id/stepNr_tv"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="0dp"
+        android:adjustViewBounds="false"
+        android:cropToPadding="false"
+        android:gravity="center_vertical|right"
+        android:paddingLeft="20dp"
+        android:scaleType="centerCrop"
+        android:visibility="invisible"
+        card_view:srcCompat="@drawable/ic_play_arrow_black_24dp" />
+
+
+</RelativeLayout>
+

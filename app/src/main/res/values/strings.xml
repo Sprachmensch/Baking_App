@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">BakingApp</string>
+    <string name="testString">Test Recipe - Oh its tasty</string>
+    <string name="appwidget_text">Recipe</string>
+    <string name="add_widget">Add Recipe to Widget</string>
+    <string name="x_8">x 8</string>
+    <string name="widgetBody2">Please select a Recipe!\nSimply click \'Add to Widget\' within the App.</string>
+    <string name="widgetBody1"></string>
+</resources>

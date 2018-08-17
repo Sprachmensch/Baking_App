@@ -26,6 +26,7 @@ import com.google.gson.reflect.TypeToken;
 import org.json.JSONArray;
 
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -41,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
     private boolean tabletLayout;
     private String noConnection = "NO INTERNET - Please check your Internet connection!";
     private String url = "https://d17h27t6h515a5.cloudfront.net/topher/2017/May/59121517_baking/baking.json";
+    private ArrayList<Recipe> recipe;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +65,14 @@ public class MainActivity extends AppCompatActivity {
             recyclerView.setLayoutManager(layoutManager);
         }
 
-        makeJSONRequest();
+        if (savedInstanceState != null) {
+            Log.d("savedInstanceState", "restored the recipe list");
+            recipe = savedInstanceState.getParcelableArrayList("recipe");
+            useRecipe();
+        } else {
+            Log.d("savedInstanceState", "created a new recipe list");
+            makeJSONRequest();
+        }
     }
 
     private void makeJSONRequest() {
@@ -79,12 +88,9 @@ public class MainActivity extends AppCompatActivity {
                         Type category = new TypeToken<List<Recipe>>() {
                         }.getType();
 
-                        List<Recipe> recipe = gson.fromJson(response.toString(), category);
+                        recipe = gson.fromJson(response.toString(), category);
 
-                        jsonSingleton = new JSONSingleton(recipe);
-
-                        recipeAdapter = new RecipeAdapter(MainActivity.this, recipe);
-                        recyclerView.setAdapter(recipeAdapter);
+                        useRecipe();
 
                     }
                 }, new Response.ErrorListener() {
@@ -106,12 +112,23 @@ public class MainActivity extends AppCompatActivity {
         queue.add(jsonObjectRequest);
     }
 
-    public class SnackbarListener implements View.OnClickListener {
+    private void useRecipe() {
+        jsonSingleton = new JSONSingleton(recipe);
 
+        recipeAdapter = new RecipeAdapter(MainActivity.this, recipe);
+        recyclerView.setAdapter(recipeAdapter);
+    }
+
+    public class SnackbarListener implements View.OnClickListener {
         @Override
         public void onClick(View v) {
             makeJSONRequest();
         }
     }
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelableArrayList("recipe", recipe);
+    }
 }

@@ -15,7 +15,6 @@
         android:id="@+id/video_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:show_buffering="true"
         app:controller_layout_id="@layout/custom_playback_control"/>
 
     <TextView

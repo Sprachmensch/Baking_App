@@ -58,6 +58,7 @@ public class DetailFragment extends Fragment {
     private long playCurrenttime = 0;
     private boolean playRunning;
     private List<Step> steps;
+    private String videoURL;
 
     public DetailFragment() {
     }
@@ -98,14 +99,18 @@ public class DetailFragment extends Fragment {
 
             playerView.setPlayer(player);
             playerView.setUseController(true);
+
+            if (videoURL != null)
+                playVideo();
         } else {
             Log.d("onSaveInstanceState", "player= not null");
         }
+        Log.d("onSaveInstanceState", "videoURL: " + videoURL);
     }
 
-    private void playVideo(String videoUrl) {
+    private void playVideo() {
         Log.d("onSaveInstanceState", "\nplayVideo \nplayCurrenttime: " + playCurrenttime);
-        Uri uri = Uri.parse(videoUrl);
+        Uri uri = Uri.parse(videoURL);
         MediaSource mediaSource = buildMediaSource(uri);
         player.prepare(mediaSource);
 
@@ -125,12 +130,12 @@ public class DetailFragment extends Fragment {
         if (JSONSingleton.getInstance().isLoaded()) {
             recipe = JSONSingleton.getInstance().getRecipe();
             steps = recipe.get(recipeNumber).getSteps();
-            String VideoURL = steps.get(stepNumber).getVideoURL();
+            videoURL = steps.get(stepNumber).getVideoURL();
 
-            if (VideoURL.equals(""))
+            if (videoURL.equals(""))
                 playerView.setVisibility(View.GONE);
             else
-                playVideo(VideoURL);
+                playVideo();
 
             shortDescTv.setText(steps.get(stepNumber).getShortDescription());
             descTv.setText(steps.get(stepNumber).getDescription());
@@ -179,10 +184,16 @@ public class DetailFragment extends Fragment {
 
     private void releasePlayer() {
         if (player != null) {
+            savePlayerState();
             player.stop();
             player.release();
             player = null;
         }
+    }
+
+    private void savePlayerState() {
+        playCurrenttime = player.getCurrentPosition();
+        playRunning = player.getPlayWhenReady();
     }
 
     public static DetailFragment newInstance(int recipeNumber, int position) {
@@ -226,14 +237,6 @@ public class DetailFragment extends Fragment {
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
-
-        if (player != null) {
-            Log.d("onSaveInstanceState", "onSaveInstanceState\nplayer NOT NULL");
-            playCurrenttime = player.getCurrentPosition();
-            playRunning = player.getPlayWhenReady();
-        } else {
-            Log.d("onSaveInstanceState", "player NULL");
-        }
         outState.putLong("time", playCurrenttime);
         outState.putBoolean("play", playRunning);
         Log.d("onSaveInstanceState", "\nonSaveInstanceState\ntime: " + playCurrenttime);

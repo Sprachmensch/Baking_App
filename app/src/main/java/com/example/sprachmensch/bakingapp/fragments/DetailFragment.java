@@ -72,8 +72,8 @@ public class DetailFragment extends Fragment {
         if (savedInstanceState != null) {
             playCurrenttime = savedInstanceState.getLong("time");
             playRunning = savedInstanceState.getBoolean("play");
-            Log.d("onSaveInstanceState", "\ntime: " + playCurrenttime);
-            Log.d("onSaveInstanceState", "running: " + playRunning);
+            Log.d("onSaveInstanceState", "\nrestored playCurrenttime: " + playCurrenttime);
+            Log.d("onSaveInstanceState", "restored running: " + playRunning);
         }
 
         position = getArguments().getInt("position");
@@ -100,11 +100,12 @@ public class DetailFragment extends Fragment {
             playerView.setPlayer(player);
             playerView.setUseController(true);
 
-            if (videoURL != null)
-                playVideo();
         } else {
             Log.d("onSaveInstanceState", "player= not null");
         }
+
+        if (videoURL != null)
+            playVideo();
         Log.d("onSaveInstanceState", "videoURL: " + videoURL);
     }
 
@@ -182,6 +183,12 @@ public class DetailFragment extends Fragment {
             releasePlayer();
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        releasePlayer();
+    }
+
     private void releasePlayer() {
         if (player != null) {
             savePlayerState();
@@ -189,11 +196,6 @@ public class DetailFragment extends Fragment {
             player.release();
             player = null;
         }
-    }
-
-    private void savePlayerState() {
-        playCurrenttime = player.getCurrentPosition();
-        playRunning = player.getPlayWhenReady();
     }
 
     public static DetailFragment newInstance(int recipeNumber, int position) {
@@ -237,11 +239,23 @@ public class DetailFragment extends Fragment {
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        savePlayerState();
         outState.putLong("time", playCurrenttime);
         outState.putBoolean("play", playRunning);
-        Log.d("onSaveInstanceState", "\nonSaveInstanceState\ntime: " + playCurrenttime);
-        Log.d("onSaveInstanceState", "running: " + playRunning);
-        super.onSaveInstanceState(outState);
+        Log.d("onSaveInstanceState()", "\nonSaveInstanceState\ntime: " + playCurrenttime);
+        Log.d("onSaveInstanceState()", "running: " + playRunning);
+
     }
+
+    private void savePlayerState() {
+        if (player != null) {
+            playCurrenttime = player.getCurrentPosition();
+            playRunning = player.getPlayWhenReady();
+        }
+        Log.d("savePlayerState()", "\nonSaveInstanceState\ntime: " + playCurrenttime);
+        Log.d("savePlayerState()", "running: " + playRunning);
+    }
+
 }
 
